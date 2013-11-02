@@ -1,0 +1,140 @@
+/* topInfos - timer and player points */
+
+#topInfos {
+	position : relative;
+	width : 100%;
+	height : 50px;
+	background: #fbfbfb;
+}
+
+#timer, #timerSpectator {
+	position: relative;
+	height: 100%;
+	width: 49.5%;
+	background-color: #fbfbfb;
+	float : left;
+	text-align: center;
+}
+
+
+#userStatus, #userStatusSpectator {
+	position: relative;
+	height: 100%;
+	width: 49.5%;
+	background-color : #fbfbfb;
+	float : left;
+	text-align: center;
+}
+
+
+#gameContent {
+	top: 40px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0;
+}
+
+/* map */
+
+#map_canvas, #map_canvas_spectator {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* bottomInfos - team points */
+
+#bottomInfos {
+	position : relative;
+	width : 100%;
+	height : 50px;
+	background: #fbfbfb;
+}
+
+
+#teamRedInfo {
+	position: relative;
+	height: 100%;
+	width: 49.5%;
+	background-color : #fbfbfb;
+	float : left;
+	text-align: center;
+}
+
+
+#teamBlueInfo {
+	position: relative;
+	height: 100%;
+	width: 49.5%;
+	background-color : #fbfbfb;
+	float : left;
+	text-align: center;
+}
+
+#teamRedText {
+	color : red;
+	text-shadow: none;
+	margin: auto;
+	line-height: 25px;
+	font-size: 120%;
+}
+
+
+#teamBlueText {
+	color : #4c9bf5;
+	text-shadow: none;
+	margin: auto;
+	line-height: 25px;
+	font-size: 120%;	
+}
+
+#teamRedPoints, #teamRedPointsSpectator {
+	color : black;
+	text-shadow: none;
+	margin: auto;
+	line-height: 25px;
+	font-size: 120%;
+}
+
+#teamBluePoints, #teamBluePointsSpectator{
+	color : black;
+	text-shadow: none;
+	margin: auto;
+	line-height: 25px;
+	font-size: 120%;
+}
+
+.topInfoText {
+	color : black;
+	text-shadow: none;
+	vertical-align: middle;
+	margin: auto;
+	line-height: 50px;
+	font-size: 200%;
+
+}
+
+
+/* white style separator */
+
+.separator {
+	position: relative;
+	height: 100%;
+	width: 1.0%;
+	float: left;
+	background-color: gray;
+	
+}
+
+
+#battleCounddown{
+	color: red;
+}
+
+
+
+
+
