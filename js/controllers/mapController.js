@@ -3,6 +3,7 @@ var mapController = function(){
 var map = null;
 var goodies = [];	
 var players = [];
+var positioningInterval;
 	
 this.initMap = function(mapElement) {
 	    var locationCenter = new google.maps.LatLng(48.337050, 14.319600);
@@ -18,12 +19,13 @@ this.initMap = function(mapElement) {
 			//map already exists
 			this.removeMarkers();
 			this.initMarkers(map);
+			getLocation();
 		}
 }
 
 function getLocation() {
   if (navigator.geolocation) {
-  	setInterval(function() {
+  	positioningInterval = setInterval(function() {
   		//console.log("geo");
 	  	navigator.geolocation.getCurrentPosition(showPosition, geolocationError, {enableHighAccuracy: true});
   	}, 500);
@@ -58,6 +60,9 @@ this.removeMarkers = function(){
 	players = [];
 }
 
+this.stopPositioning = function() {
+	clearInterval(positioningInterval);
+}
 
 
 this.initMarkers = function(map){
@@ -172,7 +177,6 @@ this.initMarkers = function(map){
 	
 	var distance = google.maps.geometry.spherical.computeDistanceBetween (redPlayer.position, bluePlayer.position);
 	//alert(distance);
-	
 	 google.maps.event.addListener(map, 'zoom_changed', function() {
 		 redPlayer.setIcon(redPlayerImg);
 	 });

@@ -29,6 +29,7 @@ var gameSpectatorController = (function() {
 	function cancelButtonPressed(){
 		$("#cancelButtonSpectatorGame" ).on("click", function(event, ui) {
 			map.removeMarkers();
+			map.stopPositioning();
 		});
 	}
 	
