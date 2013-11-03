@@ -7,6 +7,7 @@ var gameSpectatorController = (function() {
 		map = new mapController();
      	map.resize("map_canvas_spectator");
 		bindUIActions();
+		bindServiceMessages();
 	}
 	
 	function pageShow() {
@@ -18,6 +19,12 @@ var gameSpectatorController = (function() {
 		cancelButtonPressed();
 	}
 	
+	function bindServiceMessages() {
+		amplify.subscribe('messageType', function (data) {
+			//call private function
+		});
+	}
+	
 	//control events
 	function cancelButtonPressed(){
 		$("#cancelButtonSpectatorGame" ).on("click", function(event, ui) {
@@ -25,9 +32,14 @@ var gameSpectatorController = (function() {
 		});
 	}
 	
+	function resizeMap(){
+		map.resize("map_canvas_spectator");
+	}
+	
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
-		pageShow : pageShow
+		pageShow : pageShow,
+		resizeMap : resizeMap
 	}
 })();

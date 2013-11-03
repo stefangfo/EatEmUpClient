@@ -47,7 +47,7 @@ $(document).on('pageshow', '#gameSpectatorPage' ,function(){
 
 //document ready events
 $(document).ready(function(){
-	socketConnection.establishConnection();
+	//socketConnection.establishConnection();
 
 });
 
@@ -56,10 +56,8 @@ $(document).ready(function(){
 $(window).on('resize', function(){
 	//resize map when window size changes
 	if ($.mobile.activePage.attr('id') == "gamePage"){
-		map.resize("map_canvas");
-		google.maps.event.trigger($("#map_canvas"), 'resize');  
-	}else{
-		mapGuest.resize("map_canvas_guest");
-		google.maps.event.trigger($("#map_canvas_guest"), 'resize'); 
+		gameController.resizeMap(); 
+	}else if($.mobile.activePage.attr('id') == "gameSpectatorPage"){
+		gameSpectatorController.resizeMap();
 	}
 });

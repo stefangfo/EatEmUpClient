@@ -3,23 +3,19 @@ var socketConnection = (function() {
 
 	function establishConnection() {
 		connection = new WebSocket('ws://localhost:8080/websocketTest');
-		bindEvents();
-		
-		
+		bindSocketEvents();
+		bindSendMessages();
 	}
 	
 	//web socket events
-	function bindEvents() {
+	function bindSocketEvents() {
 	    connection.onopen = function(event) {
 	      connection.send("hello");
 	    }
 	
 	    connection.onmessage = function(event) {
 	       console.log("message received "+event.data);
-	      // var message = jQuery.parseJSON(event.data);
-		   
-	      
-	       //console.log(message.message.teamRedWin);
+	       //amplify.publish(event.data.type, event.data.message);
 	    }
 	
 		connection.onerror = function(event) {
@@ -31,6 +27,19 @@ var socketConnection = (function() {
 	    }
 	}
 
+	//messages from client to server
+	function bindSendMessages() {
+		amplify.subscribe('loginRequest', function (loginInfo) {
+			sendLoginRequest(loginInfo);
+		});
+		
+	}
+	
+	function sendLoginRequest(loginInfo) {
+		//send message
+		console.log(loginInfo.password);
+	}
+	
 	    
     return{
 	    establishConnection : establishConnection

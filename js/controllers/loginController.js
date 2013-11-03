@@ -4,6 +4,7 @@ var loginController = (function() {
 	function pageInit() {
 		//alert("page init login");
 		bindUIActions();
+		bindServiceMessages();
 	}
 	
 	function pageShow() {
@@ -14,10 +15,16 @@ var loginController = (function() {
 		loginButtonClicked();
 	}
 	
+	function bindServiceMessages() {
+		
+	}
+	
 	//control events
 	function loginButtonClicked() {
 		$("#loginButton" ).on("click", function(event, ui) {
-			
+			var username = document.getElementById("usernameField").value;
+			var password = $("#passwordField").value;
+			amplify.publish('loginRequest', {username: username, password: password});
 		});
 	}
 	

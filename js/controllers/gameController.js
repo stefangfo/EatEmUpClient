@@ -30,9 +30,14 @@ var gameController = (function() {
 		});
 	}
 	
+	function resizeMap(){
+		map.resize("map_canvas");
+	}
+	
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
-		pageShow : pageShow
+		pageShow : pageShow,
+		resizeMap : resizeMap
 	}
 })();

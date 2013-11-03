@@ -4,7 +4,7 @@ var map = null;
 var goodies = [];	
 var players = [];
 	
-this.initMap = function(mapElement){
+this.initMap = function(mapElement) {
 	    var locationCenter = new google.maps.LatLng(48.337050, 14.319600);
 		var mapOptions = {zoom: 17,
 						  center: locationCenter,
@@ -13,6 +13,7 @@ this.initMap = function(mapElement){
 	    if(!isInitialized(mapElement)) {
 	    	 map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
 			 this.initMarkers(map);
+			 getLocation();
 		}else{
 			//map already exists
 			this.removeMarkers();
@@ -20,7 +21,28 @@ this.initMap = function(mapElement){
 		}
 }
 
-isInitialized = function(id) {
+function getLocation() {
+  if (navigator.geolocation) {
+  	setInterval(function() {
+  		//console.log("geo");
+	  	navigator.geolocation.getCurrentPosition(showPosition, geolocationError, {enableHighAccuracy: true});
+  	}, 500);
+  } else {
+  		alert("Positionsbestimmung auf diesem Gerät nicht möglich");
+  	}
+}
+
+function showPosition(position){
+	//console.log("Geo");
+	//alert("Latitude: "+position.coords.latitude + " Longitude: "+position.coords.longitude);
+	
+	players[0].setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+}
+
+function geolocationError(error){
+}
+
+function isInitialized(id) {
     return !! document.getElementById(id).firstChild;
 }
 
@@ -170,6 +192,8 @@ this.resize = function(mapElement){
    
     $("#"+mapElement).height(height);
     $("#"+mapElement).width(width);
+    
+    google.maps.event.trigger($("#"+mapElement), 'resize'); 
 }
 
 	
