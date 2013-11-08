@@ -147,6 +147,7 @@
 
 /* battle progress bar */
 .progress-bar {
+	position: absolute
 	background-color: #1a1a1a;
 	height: 25px;
 	padding: 5px;

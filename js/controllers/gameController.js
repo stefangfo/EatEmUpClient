@@ -22,7 +22,11 @@ var gameController = (function() {
         	
         	progressInterval = setInterval(function(){
         		$(".progress-bar span").css("width", startVal+"%");
-        		startVal = startVal - 10;
+        		if (startVal == -10) {
+	        		$("#battlePopup").popup( "close" );
+        		}else{
+	        		startVal = startVal - 10;
+        		}
         	},1000);
 		},2000);
 	}
@@ -37,6 +41,7 @@ var gameController = (function() {
 			map.stopPositioning();
 			map.removeMarkers();	
 			clearInterval(progressInterval);
+			$(".progress-bar span").css("width", "100%");
 		});
 	}
 	
