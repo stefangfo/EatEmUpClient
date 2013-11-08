@@ -65,11 +65,43 @@
 	  	<h3>Total: <span id="totalPoints">1200 Punkte</span></h3>
 	  	<h3>Code: XE43TZ</h3>
 	  	</br></br>
-	  	 <ul data-role="listview">
-		  	 <li><a href="#lobbyPage" data-transition="slide">An Spiel teilnehmen</a></li>
-		  	 <li><a href="#gameSpectatorPage" data-transition="slide">Spiel mitverfolgen</a></li>
+	  	 <ul data-role="listview" data-split-icon="info" data-split-theme="c">
+		  	 <li><a href="#lobbyPage" data-transition="pop">An Spiel teilnehmen</a><a href="#gameInfoPopup" data-rel="popup" data-position-to="window" 
+		  	 data-transition="pop"></a></li>
+		  	 <li><a href="#gameSpectatorPage" data-transition="pop">Spiel mitverfolgen</a><a href="#gameSpectatorInfoPopup" data-rel="popup" data-position-to="window" 
+		  	 data-transition="pop"></a></li>
+		  	 <li><a href="#highscorePage" data-transition="slide">Highscore</a></li>
 		  	 <li><a href="#sponsorPage" data-transition="slide">Punkte einlösen</a></li>
 		 </ul>
+		 
+	  <!-- game info popup -->
+	   <div data-role="popup" id="popupMenu" data-theme="a">
+	    <div data-role="popup" id="gameInfoPopup" data-theme="a" class="ui-corner-all">
+	     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	            <div style="padding:10px 20px;">
+	               <h3>Spielbeschreibung:</h3>
+	               <p>In einem Spiel kannst du Punktegoodies (schwarze und goldene Kreise) einsammeln, um Punkte zu erhalten. </p>
+	               <p>Manche Goodies verleihen besondere Fähigkeiten. </p>
+	               <p> Kommst du in die Nähe eines anderen Spielers kannst du mit ihm, unter Einsatz eurer
+	               	Punkte, in einem Minigame antreten.
+	               </p>
+	            </div>   
+	    </div>
+	   </div>
+	   <!-- game spectator info popup -->
+	   <div data-role="popup" id="popupMenu" data-theme="a">
+	    <div data-role="popup" id="gameSpectatorInfoPopup" data-theme="a" class="ui-corner-all">
+	     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	            <div style="padding:10px 20px;">
+	               <h3>Spiel mitverfolgen:</h3>
+	               <p>Hier kannst du ein zufällig ausgewähltes Spiel mitverfolgen.</p>
+	               <p>Wenn du möchtest, kannst du auf ein Team wetten. Je nach eingesetzten Punkten und der Wettquote erreichnet sich der
+		              Gewinn bzw. Verlust an Punkten.
+	               </p>
+	            </div>   
+	    </div>
+	   </div>
+
 	  </div>
 	</div>
 	
@@ -100,8 +132,6 @@
 		  <label for="checkbox-4">Michael</label>
 		 </fieldset>
 	  	</div>
-		<a data-role="button" data-theme="a" id="readyButton">Bereit</a>
-	  	
 	  </div>
 	</div>
 	
@@ -139,10 +169,11 @@
 	     <!-- battle popup -->
 	   <div data-role="popup" id="popupBattle" data-theme="a">
 	    <div data-role="popup" id="battlePopup" data-theme="a" class="ui-corner-all">
-	        <form>
+	        
 	            <div style="padding:10px 20px;">
 	               <h4>Berechne schnell das korrekte Ergebnis!<h4>
 	               <div align="center"><h3>14 * 8</h3></div>
+	               	<div id="battleAnswers">
 		                <input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
 			         	<label for="radio-choice-21">110</label>
 			
@@ -154,10 +185,18 @@
 			
 			         	<input type="radio" name="radio-choice-2" id="radio-choice-24" value="choice-4"  />
 			         	<label for="radio-choice-24">102</label>
-				   <div align="center"><p><strong><font color="red">4</font></strong> Sekunden übrig</p></div>
-				   
+	               	</div>
+			       <div class="progress-bar blue stripes">
+			       	<div id="innerProgressBar">
+					   	<span style="height: 100%"></span>
+			       	</div>
 				   </div>
-	        </form>
+	              
+				   
+				   <div align="center"><p><strong><font color="white">4</font></strong> Sekunden übrig</p></div>
+				   
+				 </div>
+	        
 	    </div>
 	   </div>
 	   <!-- battle result popup -->
@@ -187,10 +226,6 @@
 	   <div id="topInfos">
 	  	<div id="timerSpectator">
 	  		<p class="topInfoText">14:30</p>
-	  	</div>
-	  	<div class="separator"></div>
-	  	<div id="userStatus">
-	  		<p id="userPointsSpectator" class="topInfoText">200 Pkt.</p>
 	  	</div>
 	   </div>
 	   
@@ -269,10 +304,24 @@
 	  	<h3>Verfügbare Punkte: <span id="totalPoints">1200</span></h3>
 	  	</br></br>
 	  	 <ul data-role="listview">
-		  	 <li><a href="#" data-transition="slide"><img class="sponsorIcon" src="img/amazonIcon.png" alt="Buy"><h2>Amazon Gutschein 5€</h2><h3>Für <span id="totalPoints">5000</span> Punkte</h3></a>
+		  	 <li><img class="sponsorIcon" src="img/amazonIcon.png" alt="Buy"><h2>Amazon Gutschein 5€</h2><h3>Für <span id="totalPoints">5000</span> Punkte</h3></li>
+		  	 <li><img class="sponsorIcon" src="img/raikaIcon.png" alt="Buy"><h2>2x MTV EMA Tickets</h2><h3>Für <span id="totalPoints">50000</span> Punkte</h3></li>
+		 </ul>
+	  </div>
+	</div>
+	
+	<!-- highscore page -->
+ 	<div data-role="page" id="highscorePage" data-add-back-btn="true" data-back-btn-text="Zurück">
+ 	  <div id="highscoreHeader" data-role="header"> 
+	 	  <h1>Highscore</h1> 
+	  </div>
+	  <div data-role="content">  
+	  	<h3>SpielerInnen Highscores</span></h3>
+	  	</br></br>
+	  	 <ul data-role="listview">
+		  	 <li><img class="sponsorIcon" src="img/playerImg.png" alt="player"><h2>BestPlayer</h2><h2><span id="totalPoints">80000</span> Punkte</h2>
 		  	 </li>
-		  	 <li><a href="#" data-transition="slide"><img class="sponsorIcon" src="img/raikaIcon.png" alt="Buy"><h2>2x MTV EMA Tickets</h2><h3>Für <span id="totalPoints">50000</span> Punkte</h3></a>
-		  	 </li>
+		  	 <li><img class="sponsorIcon" src="img/playerImg.png" alt="player"><h2>SecondBestPlayer</h2><h2><h2><span id="totalPoints">75250</span> Punkte</h2></li>
 		 </ul>
 	  </div>
 	</div>

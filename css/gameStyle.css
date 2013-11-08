@@ -7,7 +7,7 @@
 	background: #fbfbfb;
 }
 
-#timer, #timerSpectator {
+#timer {
 	position: relative;
 	height: 100%;
 	width: 49.5%;
@@ -16,8 +16,17 @@
 	text-align: center;
 }
 
+#timerSpectator {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	background-color: #fbfbfb;
+	float : left;
+	text-align: center;
+}
 
-#userStatus, #userStatusSpectator {
+
+#userStatus {
 	position: relative;
 	height: 100%;
 	width: 49.5%;
@@ -130,10 +139,56 @@
 }
 
 
-#battleCounddown{
+#battleCounddown {
 	color: red;
 }
 
+
+
+/* battle progress bar */
+.progress-bar {
+	background-color: #1a1a1a;
+	height: 25px;
+	padding: 5px;
+	
+	margin-right: 50;
+	margin-left: 50;
+	margin: 20px 0;			
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;	      
+}
+
+#innerProgressBar {
+	position: relative;
+	height: 100%;
+	background: transparent;
+}
+
+.progress-bar span {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	width: 100%;	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        -webkit-transition: width .4s ease-in-out;
+        -moz-transition: width .4s ease-in-out;
+        -ms-transition: width .4s ease-in-out;
+        -o-transition: width .4s ease-in-out;
+        transition: width .4s ease-in-out;    
+}
+
+.blue span {
+	background-color: #4c9bf5;   
+}
 
 
 

@@ -19,3 +19,9 @@ body {
 h1 {
 	text-shadow: none;
 }
+
+.ui-btn-active 
+{ 
+    background: gray; 
+    background-color: gray; 
+}

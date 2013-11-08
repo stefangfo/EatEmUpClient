@@ -1,6 +1,7 @@
 var gameController = (function() {
 	
 	var map = null;
+	var progressInterval = null;
 	
 	//page events
 	function pageInit() {
@@ -16,6 +17,13 @@ var gameController = (function() {
                 
         setTimeout(function(){
         	$("#battlePopup").popup("open");
+        	var startVal = 100;
+        	
+        	
+        	progressInterval = setInterval(function(){
+        		$(".progress-bar span").css("width", startVal+"%");
+        		startVal = startVal - 10;
+        	},1000);
 		},2000);
 	}
 	
@@ -26,7 +34,9 @@ var gameController = (function() {
 	//control events	
 	function cancelButtonPressed(){
 		$("#cancelButtonGame" ).on("click", function(event, ui) {
-			map.removeMarkers();
+			map.stopPositioning();
+			map.removeMarkers();	
+			clearInterval(progressInterval);
 		});
 	}
 	
