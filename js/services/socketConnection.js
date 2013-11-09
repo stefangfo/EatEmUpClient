@@ -2,7 +2,7 @@ var socketConnection = (function() {
 	var connection = null;
 
 	function establishConnection() {
-		connection = new WebSocket('ws://localhost:8080/websocketTest');
+		connection = new WebSocket('ws://localhost:8080/websocket');
 		bindSocketEvents();
 		bindSendMessages();
 	}
@@ -10,7 +10,8 @@ var socketConnection = (function() {
 	//web socket events
 	function bindSocketEvents() {
 	    connection.onopen = function(event) {
-	      connection.send("hello");
+	    	//connection.send('hello');
+	    	console.log("Websocket Opened!");
 	    }
 	
 	    connection.onmessage = function(event) {
@@ -19,25 +20,33 @@ var socketConnection = (function() {
 	    }
 	
 		connection.onerror = function(event) {
-	      
+	       console.log("Websocket Error!");
 	    }
 	    
 	    connection.onclose = function(event) {
-		    
+		   console.log("Websocket Closed!");
 	    }
 	}
 
 	//messages from client to server
 	function bindSendMessages() {
-		amplify.subscribe('loginRequest', function (loginInfo) {
-			sendLoginRequest(loginInfo);
+		amplify.subscribe('sendLoginData', function (loginInfo) {
+			var message = {
+					type:"Login",
+					message: loginInfo
+			}
+			sendLoginRequest(message);
 		});
+		
+		
 		
 	}
 	
-	function sendLoginRequest(loginInfo) {
+	function sendLoginRequest(message) {
 		//send message
-		console.log(loginInfo.password);
+		console.log(JSON.stringify(message));
+		connection.send(JSON.stringify(message));
+		
 	}
 	
 	    

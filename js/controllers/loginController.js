@@ -23,8 +23,8 @@ var loginController = (function() {
 	function loginButtonClicked() {
 		$("#loginButton" ).on("click", function(event, ui) {
 			var username = document.getElementById("usernameField").value;
-			var password = $("#passwordField").value;
-			amplify.publish('loginRequest', {username: username, password: password});
+			var password = document.getElementById("passwordField").value;
+			amplify.publish('sendLoginData', {username: username, password: password});
 		});
 	}
 	

@@ -47,7 +47,7 @@ $(document).on('pageshow', '#gameSpectatorPage' ,function(){
 
 //document ready events
 $(document).ready(function(){
-	//socketConnection.establishConnection();
+	socketConnection.establishConnection();
 
 });
 
