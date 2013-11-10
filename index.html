@@ -19,6 +19,8 @@
   	  
   	  <!-- utility libs -->
   	  <script type="text/javascript" src="js/libs/amplify.min.js"></script> 
+  	  <script type="text/javascript" src="js/libs/jquery.validate.js"></script>
+  	  <script type="text/javascript" src="js/libs/messages_de.js"></script>
   	  
   	   <!-- own files -->
 	  <script src="js/globalEvents.js"></script>
@@ -28,7 +30,9 @@
 	  <script src="js/controllers/lobbyController.js"></script>
 	  <script src="js/controllers/gameController.js"></script>
 	  <script src="js/controllers/gameSpectatorController.js"></script>
+	  <script src="js/controllers/highscoreController.js"></script>
 	  <script src="js/services/socketConnection.js"></script>
+	  <script src="js/accountData.js"></script>
 	  <link rel="stylesheet" href="css/gameStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/loginStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/lobbyStyle.css" type="text/css"></link>
@@ -44,12 +48,25 @@
  	  <div id="loginHeader" data-role="header"> 
 	 	  <h1>Login</h1> 
 	  </div>
-	  <div data-role="content">  
+	  <div data-role="content"> 
+	  	<form id="loginForm">
 	  	  <label for="usernameField">Benutzername:</label>
-	  	  <input type="text" name="name" id="usernameField" value=""  /> 
+	  	  <input type="text" name="name" id="usernameField" value="" class="required" /> 
 	  	  <label for="passwordField">Passwort:</label>
-	  	  <input type="password" name="password" id="passwordField" value=""  /> 
-	      <a href="#selectPage" data-transition="pop" data-role="button" data-theme="a" id="loginButton">Login</a>
+	  	  <input type="password" name="password" id="passwordField" value="" class="required" /> 
+	  	  </br>
+	      <input type="submit" data-theme="a" name="submit" id="loginButton" value="Login">
+	  	</form>
+	  	
+	  	<!-- login failed popup -->
+	   <div data-role="popup" id="popupMenu" data-theme="a">
+	    <div data-role="popup" id="loginFailedPopup" data-theme="a" class="ui-corner-all">
+	     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	            <div style="padding:10px 20px;">
+	               <h3>Falsche Logindaten!</h3>
+	            </div>   
+	    </div>
+	   </div>
 	  </div>
 	</div>
 	
@@ -61,11 +78,11 @@
 	 	  <a href="#loginPage" id="logoutButton" data-icon="delete">Logout</a>
 	  </div>
 	  <div data-role="content">  
-	  	<h2>Willkommen, Stefan!</h2>
-	  	<h3>Total: <span id="totalPoints">1200 Punkte</span></h3>
-	  	<h3>Code: XE43TZ</h3>
+	  	<h2>Willkommen, <span id="username">Stefan</span>!</h2>
+	  	<h3>Total: <span class="totalPoints">0</span> Punkte</h3>
+	  	<h3>Code: <span id="refCode">XE43TZ</span></h3>
 	  	</br></br>
-	  	 <ul data-role="listview" data-split-icon="info" data-split-theme="c">
+	  	 <ul data-role="listview" id="selectList" data-split-icon="info" data-split-theme="c">
 		  	 <li><a href="#lobbyPage" data-transition="pop">An Spiel teilnehmen</a><a href="#gameInfoPopup" data-rel="popup" data-position-to="window" 
 		  	 data-transition="pop"></a></li>
 		  	 <li><a href="#gameSpectatorPage" data-transition="pop">Spiel mitverfolgen</a><a href="#gameSpectatorInfoPopup" data-rel="popup" data-position-to="window" 
@@ -106,17 +123,17 @@
 	</div>
 	
 	<!-- lobby -->
-	<div data-role="page" id="lobbyPage" data-add-back-btn="true" data-back-btn-text="Zurück"> 
+	<div data-role="page" id="lobbyPage" data-add-back-btn="true" data-back-btn-text="Zurück"> Ok, 
  	  <div id="lobbyHeader" data-role="header"> 
 	 	  <h1>Lobby</h1> 
 	  </div>
 	  <div data-role="content">  
 	  	<h3>Spielort: JKU Campus</h3>
 	  	<h3>Verfügbare Spieler: 4</h3>
-	  	<p>Drück auf deinen Namen sobald du für das Spiel bereit bist </br>
-		   Das Spiel wird gestartet wenn alle Spieler bereit sind 
-	  	</p>
-	  	
+	  	<ul>
+		  <li>Drück auf deinen Namen sobald du für das Spiel bereit bist</li>
+		  <li>Das Spiel wird gestartet wenn alle Spieler bereit sind </li>
+		</ul>	  	
 	  	<div data-role="collapsible" data-collapsed="false" data-inset="false">
 		<h3><span class="teamRedColor">Team Rot (Ich)</span></h3>
 	  	 <fieldset data-role="controlgroup">
@@ -211,7 +228,7 @@
 	        <form>
 	            <div style="padding:10px 20px;">
 	               <div align="center"><h3>Minispiel gewonnen!</h3></div>
-	               <div align="center"><h3>+ <span id="totalPoints">50</span> Punkte</h3></div>
+	               <div align="center"><h3>+ <span class="totalPoints">50</span> Punkte</h3></div>
 	               <button type="submit" data-theme="b" data-icon="check">OK</button>
 	            </div>
 	        </form>
@@ -254,7 +271,7 @@
 	     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 	        <form>
 	            <div style="padding:10px 20px;">
-	               <h3>Verfügbare Punkte: <span id="totalPoints">1200</span></h3>
+	               <h3>Verfügbare Punkte: <span class="totalPoints">0</span></h3>
 	                <input type="radio" name="radio-choice-2" id="betTeamRed" value="choice-1" checked="checked" />
 			        <label for="betTeamRed">Sieg Team Rot</label>
 			        <input type="radio" name="radio-choice-2" id="betTeamBlue" value="choice-1" checked="checked" />
@@ -284,8 +301,8 @@
 	  	<div data-role="collapsible" data-collapsed="false" data-inset="false">
 		<h3><span class="teamRedColor">Team Rot (Ich)</span></h3>
 			<ul data-role="listview">
-				<li>Markus </br></br>Erspielt: 300Pkt.</br> Gewinnanteil: 240Pkt. </br> Gesamt: <span id="totalPoints">540Pkt.</span></li>
-				<li>Stefan </br></br>Erspielt: 200Pkt.</br> Gewinnanteil: 160Pkt. </br> Gesamt: <span id="totalPoints">360Pkt.</span></li>
+				<li>Markus </br></br>Erspielt: 300Pkt.</br> Gewinnanteil: 240Pkt. </br> Gesamt: <span class="totalPoints">540Pkt.</span></li>
+				<li>Stefan </br></br>Erspielt: 200Pkt.</br> Gewinnanteil: 160Pkt. </br> Gesamt: <span class="totalPoints">360Pkt.</span></li>
 			</ul>
 	  	</div>
 	  	</br>
@@ -307,11 +324,11 @@
 	 	  <h1>Einlösen</h1> 
 	  </div>
 	  <div data-role="content">  
-	  	<h3>Verfügbare Punkte: <span id="totalPoints">1200</span></h3>
+	  	<h3>Verfügbare Punkte: <span class="totalPoints">0</span></h3>
 	  	</br></br>
 	  	 <ul data-role="listview">
-		  	 <li><img class="sponsorIcon" src="img/amazonIcon.png" alt="Buy"><h2>Amazon Gutschein 5€</h2><h3>Für <span id="totalPoints">5000</span> Punkte</h3></li>
-		  	 <li><img class="sponsorIcon" src="img/raikaIcon.png" alt="Buy"><h2>2x MTV EMA Tickets</h2><h3>Für <span id="totalPoints">50000</span> Punkte</h3></li>
+		  	 <li><img class="sponsorIcon" src="img/amazonIcon.png" alt="Buy"><h2>Amazon Gutschein 5€</h2><h3>Für <span class="totalPoints">5000</span> Punkte</h3></li>
+		  	 <li><img class="sponsorIcon" src="img/raikaIcon.png" alt="Buy"><h2>2x MTV EMA Tickets</h2><h3>Für <span class="totalPoints">50000</span> Punkte</h3></li>
 		 </ul>
 	  </div>
 	</div>
@@ -325,9 +342,6 @@
 	  	<h3>SpielerInnen Highscores</span></h3>
 	  	</br></br>
 	  	 <ul data-role="listview">
-		  	 <li><img class="sponsorIcon" src="img/playerImg.png" alt="player"><h2>BestPlayer</h2><h2><span id="totalPoints">80000</span> Punkte</h2>
-		  	 </li>
-		  	 <li><img class="sponsorIcon" src="img/playerImg.png" alt="player"><h2>SecondBestPlayer</h2><h2><h2><span id="totalPoints">75250</span> Punkte</h2></li>
 		 </ul>
 	  </div>
 	</div>

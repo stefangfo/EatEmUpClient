@@ -11,6 +11,9 @@ var gameController = (function() {
 		bindUIActions();
 	}
 	
+	function pageBeforeShow() {
+	}
+	
 	function pageShow() {
 		//alert("page show");
 		map.initMap("map_canvas");
@@ -52,6 +55,7 @@ var gameController = (function() {
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
+		pageBeforeShow : pageBeforeShow,
 		pageShow : pageShow,
 		resizeMap : resizeMap
 	}

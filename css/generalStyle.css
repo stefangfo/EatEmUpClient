@@ -25,3 +25,14 @@ h1 {
     background: gray; 
     background-color: gray; 
 }
+
+.totalPoints {
+	color: #2ebe49;
+}
+
+/* validation */
+label.error { 
+	
+	color: red; 
+}
+

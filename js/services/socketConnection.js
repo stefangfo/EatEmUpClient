@@ -16,7 +16,13 @@ var socketConnection = (function() {
 	
 	    connection.onmessage = function(event) {
 	       console.log("message received "+event.data);
-	       //amplify.publish(event.data.type, event.data.message);
+	       var dataObject = JSON.parse(event.data);
+	       if (dataObject.type == "ReadyForGame") {
+		       amplify.publish('ReadyForGame', dataObject.message);
+	       }else if (dataObject.type == "Highscore") {
+		       amplify.publish('Highscore', dataObject.message);
+	       } 
+	       
 	    }
 	
 		connection.onerror = function(event) {
@@ -30,7 +36,7 @@ var socketConnection = (function() {
 
 	//messages from client to server
 	function bindSendMessages() {
-		amplify.subscribe('sendLoginData', function (loginInfo) {
+		amplify.subscribe('Login', function (loginInfo) {
 			var message = {
 					type:"Login",
 					message: loginInfo
@@ -38,11 +44,37 @@ var socketConnection = (function() {
 			sendLoginRequest(message);
 		});
 		
+		amplify.subscribe('Logout', function (usernameInfo) {
+			var message = {
+					type:"Exit",
+					message: {username: usernameInfo}
+			}
+			sendLogoutRequest(message);
+		});
 		
-		
+		amplify.subscribe('HighscoreRequest', function (requestInfo) {
+			var message = {
+					type:"HighscoreRequest",
+					message: requestInfo
+			}
+			sendHighscoreRequest(message);
+		});
 	}
 	
 	function sendLoginRequest(message) {
+		//send message
+		console.log(JSON.stringify(message));
+		connection.send(JSON.stringify(message));
+	}
+	
+	function sendLogoutRequest(message) {
+		//send message
+		console.log(JSON.stringify(message));
+		connection.send(JSON.stringify(message));
+		
+	}
+	
+	function sendHighscoreRequest(message) {
 		//send message
 		console.log(JSON.stringify(message));
 		connection.send(JSON.stringify(message));

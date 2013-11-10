@@ -6,6 +6,9 @@ var lobbyController = (function() {
 		bindUIActions();
 	}
 	
+	function pageBeforeShow() {
+	}
+	
 	function pageShow() {
 		//alert("page show login");
 	}
@@ -35,6 +38,7 @@ var lobbyController = (function() {
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
+		pageBeforeShow : pageBeforeShow,
 		pageShow : pageShow
 	}
 })();

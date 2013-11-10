@@ -10,6 +10,9 @@ var gameSpectatorController = (function() {
 		bindServiceMessages();
 	}
 	
+	function pageBeforeShow() {
+	}
+	
 	function pageShow() {
 		//alert("page show login");
 		map.initMap("map_canvas_spectator");
@@ -40,6 +43,7 @@ var gameSpectatorController = (function() {
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
+		pageBeforeShow : pageBeforeShow,
 		pageShow : pageShow,
 		resizeMap : resizeMap
 	}

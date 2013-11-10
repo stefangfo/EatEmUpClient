@@ -5,6 +5,15 @@ var loginController = (function() {
 		//alert("page init login");
 		bindUIActions();
 		bindServiceMessages();
+		
+		$("#loginForm").validate({focusInvalid: false,
+			  submitHandler: function(form) {
+			  	login();
+			  }	  
+		});
+	}
+	
+	function pageBeforeShow() {
 	}
 	
 	function pageShow() {
@@ -12,25 +21,40 @@ var loginController = (function() {
 	}
 	
 	function bindUIActions() {
-		loginButtonClicked();
 	}
 	
 	function bindServiceMessages() {
-		
+		loginResponseMsg();
 	}
 	
-	//control events
-	function loginButtonClicked() {
-		$("#loginButton" ).on("click", function(event, ui) {
-			var username = document.getElementById("usernameField").value;
-			var password = document.getElementById("passwordField").value;
-			amplify.publish('sendLoginData', {username: username, password: password});
+	function loginResponseMsg() {
+		amplify.subscribe('ReadyForGame', function (message) {
+			$.mobile.hidePageLoadingMsg();
+			if (message.loginSuccess) {
+				//prepare select view
+				accountData.setUsername(document.getElementById("usernameField").value);
+				accountData.setPoints(message.points);
+				accountData.setCode(message.adCode);
+				$.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+			}else {
+				//display loginFailure
+				$("#loginFailedPopup").popup("open");
+			}
 		});
 	}
 	
+	function login() {
+		var username = document.getElementById("usernameField").value;
+		var password = document.getElementById("passwordField").value;
+		$.mobile.showPageLoadingMsg("a", "Daten werden geprüft...");
+		amplify.publish('Login', {username: username, password: password});
+	}
+	
+		
 	//public module functions (API)
 	return {
 		pageInit : pageInit,
+		pageBeforeShow : pageBeforeShow,
 		pageShow : pageShow
 	}
 })();
