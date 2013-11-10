@@ -36,6 +36,7 @@ var gameController = (function() {
 	
 	function bindUIActions() {
 		cancelButtonPressed();
+		battleSubmitButtonPressed();
 	}
 	
 	//control events	
@@ -45,6 +46,14 @@ var gameController = (function() {
 			map.removeMarkers();	
 			clearInterval(progressInterval);
 			$(".progress-bar span").css("width", "100%");
+		});
+	}
+	
+	function battleSubmitButtonPressed() {
+		$("#battleSubmitButton" ).on("click", function(event, ui) {
+			clearInterval(progressInterval);
+			$("#battlePopup").popup( "close" );
+			//call service
 		});
 	}
 	
