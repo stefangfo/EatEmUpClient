@@ -7,7 +7,7 @@ var sponsorController = (function() {
 	}
 	
 	function pageBeforeShow() {
-		$("#sponsorPage h3 .totalPoints").text(accountData.getPoints());
+		$("#totalPointsSponsor").text(accountData.getPoints());
 	}
 	
 	function pageShow() {

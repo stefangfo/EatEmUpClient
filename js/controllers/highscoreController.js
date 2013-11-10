@@ -14,7 +14,7 @@ var highscoreController = (function() {
 	}
 	
 	function pageShow() {
-		$.mobile.showPageLoadingMsg("a", "Highscore wird abgefragt");
+		$.mobile.showPageLoadingMsg("a", "Highscore wird geladen");
 	}
 	
 	function bindUIActions() {
