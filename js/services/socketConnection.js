@@ -3,6 +3,7 @@ var socketConnection = (function() {
 
 	function establishConnection() {
 		connection = new WebSocket('ws://localhost:8080/websocket');
+		//connection = new WebSocket('ws://eat-em-up.marce155.eu.cloudbees.net/websocket');
 		bindSocketEvents();
 		bindSendMessages();
 	}
@@ -10,7 +11,6 @@ var socketConnection = (function() {
 	//web socket events
 	function bindSocketEvents() {
 	    connection.onopen = function(event) {
-	    	//connection.send('hello');
 	    	console.log("Websocket Opened!");
 	    }
 	
@@ -22,7 +22,6 @@ var socketConnection = (function() {
 	       }else if (dataObject.type == "Highscore") {
 		       amplify.publish('Highscore', dataObject.message);
 	       } 
-	       
 	    }
 	
 		connection.onerror = function(event) {
@@ -78,7 +77,6 @@ var socketConnection = (function() {
 		//send message
 		console.log(JSON.stringify(message));
 		connection.send(JSON.stringify(message));
-		
 	}
 	
 	    
