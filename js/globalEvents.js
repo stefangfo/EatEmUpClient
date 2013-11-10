@@ -77,6 +77,19 @@ $(document).on('pageshow', '#highscorePage' ,function(){
    highscoreController.pageShow();
 });
 
+//sponsor page
+$(document).on('pageinit', '#sponsorPage' ,function(){
+   sponsorController.pageInit();
+});
+
+$(document).on('pagebeforeshow', '#sponsorPage' ,function(){
+   sponsorController.pageBeforeShow();
+});
+
+$(document).on('pageshow', '#sponsorPage' ,function(){
+   sponsorController.pageShow();
+});
+
 
 //document ready events
 $(document).ready(function(){

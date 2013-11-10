@@ -34,6 +34,8 @@ var selectController = (function() {
 				
 			}else if (index == 2) { //highscore
 				$.mobile.changePage("#highscorePage", { transition: "slide", changeHash: true });
+			}else if (index == 3) {
+				$.mobile.changePage("#sponsorPage", { transition: "slide", changeHash: true });
 			}
 		});
 	}
