@@ -178,24 +178,43 @@ function createCanvas(type, username, points, loadedCallback) {
 	var loadCallback = function () {
     	loaded++;
 	    if (loaded == imgSrcs.length) {
-	        context.drawImage(imgs[0], 0, 0, markerWidth, markerHeight);
-	        context.fillStyle = "rgb(255,255,255)";
-			context.drawImage(imgs[1], 5.0, 4, 52, 52);
-			context.fillRect (5.0,55,52,12);
-			context.fillStyle = "rgb(0,0,0)";
-			context.strokeText(points+" Pkt.", 12, 65); 
-			
+	    	drawCanvas(context, username, imgs[0], imgs[1], points);
 			playerCanvases.push({username : username, canvas : canvas, markerImg : imgs[0], userImg : imgs[1]});
 			loadedCallback(canvas.toDataURL());
 	    }
 	};
+	
+	var errorCallback = function() {
+	        drawCanvas(context, username, imgs[0], null, points);
+			
+			playerCanvases.push({username : username, canvas : canvas, markerImg : imgs[0], userImg : null});
+			loadedCallback(canvas.toDataURL());
+	}
  
     var imgs = [];
     for (var i = 0; i < imgSrcs.length; i++) {
 	    imgs[i] = new Image();
 	    imgs[i].addEventListener('load', loadCallback, false);
+	    imgs[i].onerror = errorCallback;		
 	    imgs[i].src = imgSrcs[i];
 	}
+}
+
+function drawCanvas(context, username, markerImg, userImg, points) {
+	 context.drawImage(markerImg, 0, 0, markerWidth, markerHeight);
+	 context.fillStyle = "rgb(255,255,255)";
+	 if (!(userImg == null)) {
+		  context.drawImage(userImg, 5.0, 4, 52, 52);
+	 }else {
+	 	 context.textAlign = "center";
+	 	 context.font = "15px sans-serif";
+		 context.fillText(username, 31, 30); 
+	 }
+	 context.font = "10px sans-serif";
+	 context.textAlign = "start";
+	 context.fillRect (5.0,55,52,12);
+	 context.fillStyle = "rgb(0,0,0)";
+	 context.strokeText(points+" Pkt.", 12, 65); 
 }
 
 function redrawMarker(username, points) {
@@ -205,12 +224,7 @@ function redrawMarker(username, points) {
 	var context = canvas.getContext("2d");
 	context.clearRect(0, 0, markerWidth, markerHeight);
 	//draw new canvas
-	context.drawImage(playerCanvas.markerImg, 0, 0, markerWidth, markerHeight);
-	        context.fillStyle = "rgb(255,255,255)";
-			context.drawImage(playerCanvas.userImg, 5.0, 4, 52, 52);
-			context.fillRect (5.0,55,52,12);
-			context.fillStyle = "rgb(0,0,0)";
-			context.strokeText(points+" Pkt.", 12, 65); 
+	drawCanvas(context, username, playerCanvas.markerImg, playerCanvas.userImg, points)
 		
 	//set new canvas to marker
 	var marker = getMarkerByUsername(username).marker;
