@@ -2,7 +2,10 @@ var mapController = function(){
 	
 var map = null;
 var goodies = [];	
-var players = [];
+var playerMarkers = [];
+var playerCanvases = [];
+var markerWidth = 62;
+var markerHeight = 85;
 var positioningInterval;
 	
 this.initMap = function(mapElement) {
@@ -14,19 +17,17 @@ this.initMap = function(mapElement) {
 	    if(!isInitialized(mapElement)) {
 	    	 map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
 			 this.initMarkers(map);
-			 getLocation();
+			// getLocation();
 		}else{
 			//map already exists
-			this.removeMarkers();
 			this.initMarkers(map);
-			getLocation();
+			//  getLocation();
 		}
 }
 
 function getLocation() {
   if (navigator.geolocation) {
   	positioningInterval = setInterval(function() {
-  		//console.log("geo");
 	  	navigator.geolocation.getCurrentPosition(showPosition, geolocationError, {enableHighAccuracy: true});
   	}, 500);
   } else {
@@ -35,10 +36,7 @@ function getLocation() {
 }
 
 function showPosition(position){
-	//console.log("Geo");
-	//alert("Latitude: "+position.coords.latitude + " Longitude: "+position.coords.longitude);
-	
-	players[0].setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+	playerMarkers[0].marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
 
 function geolocationError(error){
@@ -48,17 +46,6 @@ function isInitialized(id) {
     return !! document.getElementById(id).firstChild;
 }
 
-this.removeMarkers = function(){
-	for (i=0; i<goodies.length; i++){
-		goodies[i].setMap(null);
-	}
-	goodies = [];
-	
-	for (i=0; i<players.length; i++){
-		players[i].setMap(null);
-	}
-	players = [];
-}
 
 this.stopPositioning = function() {
 	clearInterval(positioningInterval);
@@ -79,62 +66,37 @@ this.initMarkers = function(map){
 												    new google.maps.Point(0, 10), /* anchor is bottom center of the scaled image */
 												    new google.maps.Size(20, 20));	
 	
-	var player1Img = new google.maps.MarkerImage("img/player1.png",
-												    null, /* size is determined at runtime */
-												    null, /* origin is 0,0 */
-												    new google.maps.Point(0, 15), /* anchor is bottom center of the scaled image */
-												    new google.maps.Size(30, 30));	
-												    
-	var redPlayerImg = new google.maps.MarkerImage("img/redPlayer.png",
-												    null, /* size is determined at runtime */
-												    null, /* origin is 0,0 */
-												    new google.maps.Point(0, 15), /* anchor is bottom center of the scaled image */
-												    new google.maps.Size(30, 30));
-												    
-												    									   
-   	var bluePlayerImg = new google.maps.MarkerImage("img/bluePlayer.png",
-												    null, /* size is determined at runtime */
-												    null, /* origin is 0,0 */
-												    new google.maps.Point(0,15), /* anchor is bottom center of the scaled image */
-												    new google.maps.Size(30, 30));
-	
 	
 	var standardGoodie1 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.337066, 14.318477),
 		map: map,
-		icon: standardImg,
-		title:"Hello World!"
+		icon: standardImg
 	});
 	var standardGoodie2 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.337191, 14.318498),
 		map: map,
-		icon: standardImg,
-		title:"Hello World!"
+		icon: standardImg
 	});
 	var standardGoodie3 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.337191, 14.318498),
 		map: map,
-		icon: standardImg,
-		title:"Hello World!"
+		icon: standardImg
 	});
 	var standardGoodie4 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.3369554, 14.318458),
 		map: map,
-		icon: standardImg,
-		title:"Hello World!"
+		icon: standardImg
 	});
 	
 	var bigGoodie1 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.338027, 14.319364),
 		map: map,
-		icon: bigImg,
-		title:"Hello World!"
+		icon: bigImg
 	});
 	var bigGoodie2 = new google.maps.Marker({
     	position: new google.maps.LatLng(48.337952, 14.320378),
 		map: map,
-		icon: bigImg,
-		title:"Hello World!"
+		icon: bigImg
 	});
 	
 	goodies.push(standardGoodie1);
@@ -144,49 +106,153 @@ this.initMarkers = function(map){
 	goodies.push(bigGoodie1);
 	goodies.push(bigGoodie2);
 	
-	var player1 = new google.maps.Marker({
-    	position: new google.maps.LatLng(48.337428, 14.319928),
-		map: map,
-		animation: google.maps.Animation.DROP,
-		icon: player1Img,
-		title:"Hello World!"
+	createCanvas("red", "stefan", 200, function(pngURL) {
+		var player1 = new google.maps.Marker({
+	    	position: new google.maps.LatLng(48.337428, 14.319928),
+			map: map,
+			icon: pngURL
+		});
+		playerMarkers.push({username: "stefan", marker: player1});	
+		
+		var amount = 0;
+		setInterval(function() {
+			amount = amount + 50;
+			redrawMarker("stefan", amount);
+		
+		}, 2000);
+		
 	});
 	
-	var infowindow = new google.maps.InfoWindow();
-	google.maps.event.addListener(player1, 'click', function() {
-		infowindow.setContent("<strong>Stefan</strong> </br></br> <span id=\"totalPoints\">200 Punkte</span>");
-		infowindow.open(this.map, player1);
+	createCanvas("red", "markus", 300, function(pngURL) {
+		var redPlayer = new google.maps.Marker({
+	    	position: new google.maps.LatLng(48.336718, 14.319592),
+			map: map,
+			icon: pngURL
+		});
+		playerMarkers.push({username: "markus", marker: redPlayer});
 	});
+
+	createCanvas("blue", "christian", 100, function(pngURL) {
+		var bluePlayer1 = new google.maps.Marker({
+	    	position: new google.maps.LatLng(48.336711, 14.319651),
+			map: map,
+			icon: pngURL
+		});
+		playerMarkers.push({username: "christian", marker: bluePlayer1});
+	});	
 	
-	
-	var redPlayer = new google.maps.Marker({
-    	position: new google.maps.LatLng(48.336711, 14.319651),
-		map: map,
-		animation: google.maps.Animation.DROP,
-		icon: redPlayerImg,
-		title:"Hello World!"
-	});
-	
-	var bluePlayer = new google.maps.Marker({
-    	position: new google.maps.LatLng(48.336718, 14.319592),
-		map: map,
-		animation: google.maps.Animation.DROP,
-		icon: bluePlayerImg,
-		title:"Hello World!"
-	});
-	
-	var distance = google.maps.geometry.spherical.computeDistanceBetween (redPlayer.position, bluePlayer.position);
-	//alert(distance);
-	 google.maps.event.addListener(map, 'zoom_changed', function() {
-		 redPlayer.setIcon(redPlayerImg);
-	 });
-	
-	players.push(player1);
-	players.push(redPlayer);
-	players.push(bluePlayer);	
+	createCanvas("blue", "michael", 150, function(pngURL) {
+		var bluePlayer2 = new google.maps.Marker({
+	    	position: new google.maps.LatLng(48.337328, 14.321237),
+			map: map,
+			icon: pngURL
+		});
+		playerMarkers.push({username: "michael", marker: bluePlayer2});
+		
+		var amount = 0;
+		setInterval(function() {
+			amount = amount + 50;
+			redrawMarker("michael", amount);
+		
+		}, 3000);
+	});	
 }
 
+function createCanvas(type, username, points, loadedCallback) {
+	var canvas, context;
+	canvas = document.createElement("canvas");
+    canvas.width = markerWidth;
+    canvas.height = markerHeight;
+    context = canvas.getContext("2d");
+    
+    var imgSrcs;
+    if (type == "me") {
+    	imgSrcs = ["img/meAvatar.png", "img/"+username+".png"];
+    }else if (type == "blue") {
+	    imgSrcs = ["img/blueAvatar.png", "img/"+username+".png"];
+    }else {
+	    imgSrcs = ["img/redAvatar.png", "img/"+username+".png"];
+    }
+    
+    var loaded = 0;
+	var loadCallback = function () {
+    	loaded++;
+	    if (loaded == imgSrcs.length) {
+	        context.drawImage(imgs[0], 0, 0, markerWidth, markerHeight);
+	        context.fillStyle = "rgb(255,255,255)";
+			context.drawImage(imgs[1], 5.0, 4, 52, 52);
+			context.fillRect (5.0,55,52,12);
+			context.fillStyle = "rgb(0,0,0)";
+			context.strokeText(points+" Pkt.", 12, 65); 
+			
+			playerCanvases.push({username : username, canvas : canvas, markerImg : imgs[0], userImg : imgs[1]});
+			loadedCallback(canvas.toDataURL());
+	    }
+	};
+ 
+    var imgs = [];
+    for (var i = 0; i < imgSrcs.length; i++) {
+	    imgs[i] = new Image();
+	    imgs[i].addEventListener('load', loadCallback, false);
+	    imgs[i].src = imgSrcs[i];
+	}
+}
 
+function redrawMarker(username, points) {
+	var playerCanvas = getCanvasByUsername(username);
+	//clear old canvas 
+	var canvas = playerCanvas.canvas;
+	var context = canvas.getContext("2d");
+	context.clearRect(0, 0, markerWidth, markerHeight);
+	//draw new canvas
+	context.drawImage(playerCanvas.markerImg, 0, 0, markerWidth, markerHeight);
+	        context.fillStyle = "rgb(255,255,255)";
+			context.drawImage(playerCanvas.userImg, 5.0, 4, 52, 52);
+			context.fillRect (5.0,55,52,12);
+			context.fillStyle = "rgb(0,0,0)";
+			context.strokeText(points+" Pkt.", 12, 65); 
+		
+	//set new canvas to marker
+	var marker = getMarkerByUsername(username).marker;
+	marker.setIcon(canvas.toDataURL());
+}
+
+function getCanvasByUsername(username) {
+	returnVal = null;
+	for (i=0; i<playerCanvases.length; i++){
+		if (playerCanvases[i].username == username) {
+			returnVal = playerCanvases[i];
+			return returnVal;
+		}
+	}
+}
+
+function getMarkerByUsername(username) {
+	returnVal = null;
+	for (i=0; i<playerMarkers.length; i++){
+		if (playerMarkers[i].username == username) {
+			returnVal = playerMarkers[i];
+			return returnVal;
+		}
+	}
+}
+
+this.removeMarkers = function(){
+	for (i=0; i<goodies.length; i++){
+		goodies[i].setMap(null);
+	}
+	goodies = [];
+	
+	for (i=0; i<playerMarkers.length; i++){
+		playerMarkers[i].marker.setMap(null);
+	}
+	playerMarkers = [];
+	
+	for (i=0; i<playerCanvases.length; i++){
+		playerCanvases[i].canvas = null;
+	}
+	playerCanvases = [];
+}
  
 this.resize = function(mapElement){
 	//resize map in relation to screen height
@@ -199,6 +265,8 @@ this.resize = function(mapElement){
     
     google.maps.event.trigger($("#"+mapElement), 'resize'); 
 }
+
+
 
 	
 	

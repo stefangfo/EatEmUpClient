@@ -21,8 +21,6 @@ var gameController = (function() {
         setTimeout(function(){
         	$("#battlePopup").popup("open");
         	var startVal = 100;
-        	
-        	
         	progressInterval = setInterval(function(){
         		$(".progress-bar span").css("width", startVal+"%");
         		if (startVal == -10) {
