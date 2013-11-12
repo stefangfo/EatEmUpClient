@@ -4,8 +4,8 @@ var map = null;
 var goodies = [];	
 var playerMarkers = [];
 var playerCanvases = [];
-var markerWidth = 62;
-var markerHeight = 85;
+var playerMarkerWidth = 62;
+var playerMarkerHeight = 85;
 var positioningInterval;
 	
 this.initMap = function(mapElement) {
@@ -106,7 +106,7 @@ this.initMarkers = function(map){
 	goodies.push(bigGoodie1);
 	goodies.push(bigGoodie2);
 	
-	createCanvas("red", "stefan", 200, function(pngURL) {
+	createPlayerCanvas("red", "stefan", 200, function(pngURL) {
 		var player1 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.337428, 14.319928),
 			map: map,
@@ -117,13 +117,13 @@ this.initMarkers = function(map){
 		var amount = 0;
 		setInterval(function() {
 			amount = amount + 50;
-			redrawMarker("stefan", amount);
+			redrawPlayerMarker("stefan", amount);
 		
 		}, 2000);
 		
 	});
 	
-	createCanvas("red", "markus", 300, function(pngURL) {
+	createPlayerCanvas("red", "markus", 300, function(pngURL) {
 		var redPlayer = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.336718, 14.319592),
 			map: map,
@@ -132,7 +132,7 @@ this.initMarkers = function(map){
 		playerMarkers.push({username: "markus", marker: redPlayer});
 	});
 
-	createCanvas("blue", "christian", 100, function(pngURL) {
+	createPlayerCanvas("blue", "christian", 100, function(pngURL) {
 		var bluePlayer1 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.336711, 14.319651),
 			map: map,
@@ -141,7 +141,7 @@ this.initMarkers = function(map){
 		playerMarkers.push({username: "christian", marker: bluePlayer1});
 	});	
 	
-	createCanvas("blue", "michael", 150, function(pngURL) {
+	createPlayerCanvas("blue", "michael", 150, function(pngURL) {
 		var bluePlayer2 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.337328, 14.321237),
 			map: map,
@@ -152,17 +152,17 @@ this.initMarkers = function(map){
 		var amount = 0;
 		setInterval(function() {
 			amount = amount + 50;
-			redrawMarker("michael", amount);
+			redrawPlayerMarker("michael", amount);
 		
 		}, 3000);
 	});	
 }
 
-function createCanvas(type, username, points, loadedCallback) {
+function createPlayerCanvas(type, username, points, loadedCallback) {
 	var canvas, context;
 	canvas = document.createElement("canvas");
-    canvas.width = markerWidth;
-    canvas.height = markerHeight;
+    canvas.width = playerMarkerWidth;
+    canvas.height = playerMarkerHeight;
     context = canvas.getContext("2d");
     
     var imgSrcs;
@@ -178,14 +178,14 @@ function createCanvas(type, username, points, loadedCallback) {
 	var loadCallback = function () {
     	loaded++;
 	    if (loaded == imgSrcs.length) {
-	    	drawCanvas(context, username, imgs[0], imgs[1], points);
+	    	drawPlayerCanvas(context, username, imgs[0], imgs[1], points);
 			playerCanvases.push({username : username, canvas : canvas, markerImg : imgs[0], userImg : imgs[1]});
 			loadedCallback(canvas.toDataURL());
 	    }
 	};
 	
 	var errorCallback = function() {
-	        drawCanvas(context, username, imgs[0], null, points);
+	        drawPlayerCanvas(context, username, imgs[0], null, points);
 			
 			playerCanvases.push({username : username, canvas : canvas, markerImg : imgs[0], userImg : null});
 			loadedCallback(canvas.toDataURL());
@@ -200,38 +200,42 @@ function createCanvas(type, username, points, loadedCallback) {
 	}
 }
 
-function drawCanvas(context, username, markerImg, userImg, points) {
-	 context.drawImage(markerImg, 0, 0, markerWidth, markerHeight);
-	 context.fillStyle = "rgb(255,255,255)";
-	 if (!(userImg == null)) {
-		  context.drawImage(userImg, 5.0, 4, 52, 52);
-	 }else {
-	 	 context.textAlign = "center";
-	 	 context.font = "15px sans-serif";
-		 context.fillText(username, 31, 30); 
-	 }
-	 context.font = "10px sans-serif";
-	 context.textAlign = "start";
-	 context.fillRect (5.0,55,52,12);
-	 context.fillStyle = "rgb(0,0,0)";
-	 context.strokeText(points+" Pkt.", 12, 65); 
+function drawPlayerCanvas(context, username, markerImg, userImg, points) {
+	context.drawImage(markerImg, 0, 0, playerMarkerWidth, playerMarkerHeight);
+	context.fillStyle = "rgb(255,255,255)";
+	if (!(userImg == null)) {
+		context.drawImage(userImg, 5.0, 4, 52, 52);
+	}else {
+		context.textAlign = "center";
+	 	context.font = "15px sans-serif";
+	 	if (username.length > 6){
+		 	username = username.substr(0, 6);
+	 	}
+		context.fillText(username, 31, 30); 
+	}
+	context.font = "10px sans-serif";
+	context.textAlign = "start";
+	context.fillRect (5.0,55,52,12);
+	context.fillStyle = "rgb(0,0,0)";
+	context.strokeText(points+" Pkt.", 12, 65); 
 }
 
-function redrawMarker(username, points) {
-	var playerCanvas = getCanvasByUsername(username);
+function redrawPlayerMarker(username, points) {
+	var playerCanvas = getPlayerCanvasByUsername(username);
 	//clear old canvas 
 	var canvas = playerCanvas.canvas;
 	var context = canvas.getContext("2d");
-	context.clearRect(0, 0, markerWidth, markerHeight);
+	context.clearRect(0, 0, playerMarkerWidth, playerMarkerHeight);
+	
 	//draw new canvas
-	drawCanvas(context, username, playerCanvas.markerImg, playerCanvas.userImg, points)
-		
+	drawPlayerCanvas(context, username, playerCanvas.markerImg, playerCanvas.userImg, points)
+	
 	//set new canvas to marker
-	var marker = getMarkerByUsername(username).marker;
+	var marker = getPlayerMarkerByUsername(username).marker;
 	marker.setIcon(canvas.toDataURL());
 }
 
-function getCanvasByUsername(username) {
+function getPlayerCanvasByUsername(username) {
 	returnVal = null;
 	for (i=0; i<playerCanvases.length; i++){
 		if (playerCanvases[i].username == username) {
@@ -241,7 +245,7 @@ function getCanvasByUsername(username) {
 	}
 }
 
-function getMarkerByUsername(username) {
+function getPlayerMarkerByUsername(username) {
 	returnVal = null;
 	for (i=0; i<playerMarkers.length; i++){
 		if (playerMarkers[i].username == username) {
