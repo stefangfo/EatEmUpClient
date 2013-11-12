@@ -20,7 +20,7 @@ this.initMap = function(mapElement) {
 		}else{
 			//map already exists
 			this.initMarkers(map);
-			//  getLocation();
+			//getLocation();
 		}
 }
 
@@ -105,7 +105,7 @@ this.initMarkers = function(map){
 	goodies.push(bigGoodie1);
 	goodies.push(bigGoodie2);
 	
-	createPlayerCanvas("red", "stefan", 200, function(pngURL, canvas) {
+	createPlayerAvatar("red", "stefan", 200, function(pngURL, canvas) {
 		var player1 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.337428, 14.319928),
 			map: map,
@@ -122,7 +122,7 @@ this.initMarkers = function(map){
 		
 	});
 	
-	createPlayerCanvas("red", "markus", 300, function(pngURL, canvas) {
+	createPlayerAvatar("red", "markus", 300, function(pngURL, canvas) {
 		var redPlayer = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.336718, 14.319592),
 			map: map,
@@ -131,7 +131,7 @@ this.initMarkers = function(map){
 		playerAvatars.push({username: "markus", marker: redPlayer, canvas: canvas});
 	});
 
-	createPlayerCanvas("blue", "christian", 100, function(pngURL, canvas) {
+	createPlayerAvatar("blue", "christian", 100, function(pngURL, canvas) {
 		var bluePlayer1 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.336711, 14.319651),
 			map: map,
@@ -140,7 +140,7 @@ this.initMarkers = function(map){
 		playerAvatars.push({username: "christian", marker: bluePlayer1, canvas: canvas});
 	});	
 	
-	createPlayerCanvas("blue", "michael", 150, function(pngURL, canvas) {
+	createPlayerAvatar("blue", "michael", 150, function(pngURL, canvas) {
 		var bluePlayer2 = new google.maps.Marker({
 	    	position: new google.maps.LatLng(48.337328, 14.321237),
 			map: map,
@@ -156,7 +156,7 @@ this.initMarkers = function(map){
 	});	
 }
 
-function createPlayerCanvas(type, username, points, loadedCallback) {
+function createPlayerAvatar(type, username, points, loadedCallback) {
 	var canvas, context;
 	canvas = document.createElement("canvas");
     canvas.width = playerAvatarWidth;
@@ -176,13 +176,13 @@ function createPlayerCanvas(type, username, points, loadedCallback) {
 	var loadCallback = function () {
     	loaded++;
 	    if (loaded == imgSrcs.length) {
-	    	drawPlayerCanvas(context, username, imgs[0], imgs[1], points, null);
+	    	drawPlayerAvatar(context, username, imgs[0], imgs[1], points, null);
 			loadedCallback(canvas.toDataURL(), {canvas: canvas, markerImg: imgs[0], userImg: imgs[1]});
 	    }
 	};
 	
 	var errorCallback = function() {
-	        drawPlayerCanvas(context, username, imgs[0], null, points, null);
+	        drawPlayerAvatar(context, username, imgs[0], null, points, null);
 			loadedCallback(canvas.toDataURL(), {canvas: canvas, markerImg: imgs[0], userImg: null});
 	}
  
@@ -195,7 +195,7 @@ function createPlayerCanvas(type, username, points, loadedCallback) {
 	}
 }
 
-function drawPlayerCanvas(context, username, markerImg, userImg, points, specialAction) {
+function drawPlayerAvatar(context, username, markerImg, userImg, points, specialAction) {
 	context.drawImage(markerImg, 0, 10, 62, 85);
 	context.fillStyle = "rgb(255,255,255)";
 	if (!(userImg == null)) {
@@ -240,7 +240,7 @@ function redrawPlayerAvatar(username, points, specialAction) {
 	context.clearRect(0, 0, playerAvatarWidth, playerAvatarHeight);
 	
 	//draw new canvas
-	drawPlayerCanvas(context, username, playerAvatar.canvas.markerImg, playerAvatar.canvas.userImg, points, specialAction)
+	drawPlayerAvatar(context, username, playerAvatar.canvas.markerImg, playerAvatar.canvas.userImg, points, specialAction)
 	
 	//set new canvas to marker
 	playerAvatar.marker.setIcon(canvas.toDataURL());
