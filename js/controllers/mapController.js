@@ -16,7 +16,7 @@ this.initMap = function(mapElement) {
 	    if(!isInitialized(mapElement)) {
 	    	 map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
 			 this.initMarkers(map);
-			// getLocation();
+			//getLocation();
 		}else{
 			//map already exists
 			this.initMarkers(map);
@@ -35,7 +35,7 @@ function getLocation() {
 }
 
 function showPosition(position){
-	playerMarkers[0].marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+	playerAvatars[0].marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
 
 function geolocationError(error){
@@ -111,8 +111,17 @@ this.initMarkers = function(map){
 			map: map,
 			icon: pngURL
 		});
-		playerAvatars.push({username: "stefan", marker: player1, canvas: canvas});	
+		//callout
+		var infoWindowOpts = {
+		  content: "stefan"
+		};
+
+		var infoWindow = new google.maps.InfoWindow(infoWindowOpts);
+		google.maps.event.addListener(player1, 'click', function() {
+		  infoWindow.open(map, player1);
+		});
 		
+		playerAvatars.push({username: "stefan", marker: player1, canvas: canvas});	
 		var amount = 0;
 		setInterval(function() {
 			amount = amount + 50;
@@ -128,6 +137,16 @@ this.initMarkers = function(map){
 			map: map,
 			icon: pngURL
 		});
+		
+		//callout
+		var infoWindowOpts = {
+		  content: "markus"
+		};
+
+		var infoWindow = new google.maps.InfoWindow(infoWindowOpts);
+		google.maps.event.addListener(redPlayer, 'click', function() {
+		  infoWindow.open(map, redPlayer);
+		});
 		playerAvatars.push({username: "markus", marker: redPlayer, canvas: canvas});
 	});
 
@@ -137,6 +156,16 @@ this.initMarkers = function(map){
 			map: map,
 			icon: pngURL
 		});
+		
+		//callout
+		var infoWindowOpts = {
+		  content: "christian"
+		};
+
+		var infoWindow = new google.maps.InfoWindow(infoWindowOpts);
+		google.maps.event.addListener(bluePlayer1, 'click', function() {
+		  infoWindow.open(map, bluePlayer1);
+		});
 		playerAvatars.push({username: "christian", marker: bluePlayer1, canvas: canvas});
 	});	
 	
@@ -145,6 +174,16 @@ this.initMarkers = function(map){
 	    	position: new google.maps.LatLng(48.337328, 14.321237),
 			map: map,
 			icon: pngURL
+		});
+		
+		//callout
+		var infoWindowOpts = {
+		  content: "michael"
+		};
+
+		var infoWindow = new google.maps.InfoWindow(infoWindowOpts);
+		google.maps.event.addListener(bluePlayer2, 'click', function() {
+		  infoWindow.open(map, bluePlayer2);
 		});
 		playerAvatars.push({username: "michael", marker: bluePlayer2, canvas: canvas});
 		
