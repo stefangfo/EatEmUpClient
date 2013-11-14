@@ -80,8 +80,16 @@
 	  </div>
 	  <div data-role="content">  
 	  	<h2>Willkommen, <span id="username">Stefan</span>!</h2>
-	  	<h3>Total: <span class="totalPoints">0</span> Punkte</h3>
-	  	<h3>Code: <span id="refCode">XE43TZ</span></h3>
+	  	<h3>Punkte: <span class="totalPoints">0</span></h3>
+	  	<h3>
+	  		<table id="codeTable">
+				<tr>
+				<td>Code: <span id="refCode">XE43TZ</span></td>
+				<td><a href="#refCodePopup" id="codeInfoButton" data-rel="popup" data-position-to="window" 
+		  	 data-transition="pop" data-role="button" data-icon="info" data-iconpos="notext"></a></td>
+				</tr>
+			</table>
+	  	</h3>
 	  	</br></br>
 	  	 <ul data-role="listview" id="selectList" data-split-icon="info" data-split-theme="c">
 		  	 <li><a href="#lobbyPage" data-transition="pop">An Spiel teilnehmen</a><a href="#gameInfoPopup" data-rel="popup" data-position-to="window" 
@@ -92,6 +100,19 @@
 		  	 <li><a href="#sponsorPage" data-transition="slide">Punkte einlösen</a></li>
 		 </ul>
 		 
+	<!-- ref code popup -->
+	   <div data-role="popup" id="popupMenu" data-theme="a">
+	    <div data-role="popup" id="refCodePopup" data-theme="a" class="ui-corner-all">
+	     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	            <div style="padding:10px 20px;">
+	            	Gib diesen Code an deine Freunde/Freundinnen weiter, um mehr Punkte zu bekommen
+	            	<ul>
+	            		<li>Dein Freund/Freundin muss diesen Code bei der Registrierung angeben</li>
+	            		<li>Du bekommst 50% der Punkte, die deine Freunde/Freundinnen gewinnen, auf dein eigenes Konto gutgeschrieben</li>
+	            	</ul>
+	            </div>   
+	    </div>
+	   </div>
 	  <!-- game info popup -->
 	   <div data-role="popup" id="popupMenu" data-theme="a">
 	    <div data-role="popup" id="gameInfoPopup" data-theme="a" class="ui-corner-all">
