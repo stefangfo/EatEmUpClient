@@ -8,6 +8,12 @@ var selectController = (function() {
 		$("#username").text(accountData.getUsername());
 		$("#selectPage .totalPoints").text(accountData.getPoints());
 		$("#refCode").text(accountData.getCode());
+		
+		if (accountData.isFacebookLogin()) {
+			console.log("Load picture now!");
+		}else {
+			
+		}
 	}
 	
 	function pageShow() {
@@ -21,7 +27,12 @@ var selectController = (function() {
 	//control events
 	function logoutTap() {
 		$("#logoutButton").on("click", function() {
-			amplify.publish('Logout', accountData.getUsername());
+			if (accountData.isFacebookLogin()) {
+				facebookHandler.logout();
+			}else {
+				amplify.publish('Logout', accountData.getUsername());
+			}
+			accountData.resetUserData();
 		});
 	}	
 		

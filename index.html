@@ -32,8 +32,10 @@
 	  <script src="js/controllers/gameSpectatorController.js"></script>
 	  <script src="js/controllers/sponsorController.js"></script>
 	  <script src="js/controllers/highscoreController.js"></script>
+	  <script src="js/controllers/loginSelectionController.js"></script>
 	  <script src="js/services/socketConnection.js"></script>
 	  <script src="js/accountData.js"></script>
+	  <script src="js/services/facebookHandler.js"></script>
 	  <link rel="stylesheet" href="css/gameStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/loginStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/lobbyStyle.css" type="text/css"></link>
@@ -41,9 +43,25 @@
 	  <link rel="stylesheet" href="css/statsStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/generalStyle.css" type="text/css"></link>
 	  <link rel="stylesheet" href="css/sponsorStyle.css" type="text/css"></link>
-
+	  <link rel="stylesheet" href="css/loginSelectionStyle.css" type="text/css"></link>
  </head>
  <body>
+ 	<!-- login selection page -->
+ 	<div class="page" data-role="page" id="loginSelectionPage">
+ 	  <div id="loginSelectionHeader" data-role="header"> 
+	 	  <h1>Loginauswahl</h1> 
+	  </div>
+	  <div id="loginSelectionContent" data-role="content"> 
+	  	<h1>EatEmUp</h1>
+	  	<div id="loginSection">
+	  		<input id="fbLoginButton" type="image" src="img/fbLogin.png"></input></br>
+	  		<input id="standardLoginButton" type="image" src="img/standardLogin.png"></input>
+	  	</div>
+	  </div>
+	</div>
+
+ 
+ 
  	<!-- login page -->
  	<div class="page" data-role="page" id="loginPage">
  	  <div id="loginHeader" data-role="header"> 
@@ -76,7 +94,7 @@
  	<div data-role="page" id="selectPage">
  	  <div id="selectHeader" data-role="header"> 
 	 	  <h1>Auswahl</h1> 
-	 	  <a href="#loginPage" id="logoutButton" data-icon="delete">Logout</a>
+	 	  <a href="#loginSelectionPage" id="logoutButton" data-icon="delete">Logout</a>
 	  </div>
 	  <div data-role="content">  
 	  	<h2>Willkommen, <span id="username">Stefan</span>!</h2>

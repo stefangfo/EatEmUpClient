@@ -1,4 +1,17 @@
 //jQuery Mobile Page Events
+//loginSelectionPage
+$(document).on('pageinit', '#loginSelectionPage' ,function(){
+   loginSelectionController.pageInit();
+});
+
+$(document).on('pagebeforeshow', '#loginSelectionPage' ,function(){
+   loginSelectionController.pageBeforeShow();
+});
+
+$(document).on('pageshow', '#loginSelectionPage' ,function(){
+   loginSelectionController.pageShow();
+});
+
 //loginPage
 $(document).on('pageinit', '#loginPage' ,function(){
    loginController.pageInit();
@@ -94,6 +107,7 @@ $(document).on('pageshow', '#sponsorPage' ,function(){
 //document ready events
 $(document).ready(function(){
 	socketConnection.establishConnection();
+	facebookHandler.init();
 });
 
 
