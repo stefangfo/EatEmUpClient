@@ -15,7 +15,7 @@ var selectController = (function() {
 			$("#userImg").remove()
 			//add picture
 			$("#userPoints").css("margin-top", "15px");
-			var imgPath = "http://graph.facebook.com/"+1690871472 +"/picture";
+			var imgPath = "http://graph.facebook.com/"+accountData.getUserID() +"/picture";
 			
 			$('<img id="userImg" src="'+ imgPath +'">').load(function() {
 			  $('#welcomeInfo').after($(this));
