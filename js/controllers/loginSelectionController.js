@@ -21,7 +21,7 @@ var loginSelectionController = (function() {
 		});
 		
 		$("#standardLoginButton").on("click", function(event, ui) {
-			$.mobile.changePage("#loginPage", { transition: "pop", changeHash: true }); 
+			$.mobile.changePage("#loginPage", { transition: "slide", changeHash: true }); 
 		});
 	}
 	

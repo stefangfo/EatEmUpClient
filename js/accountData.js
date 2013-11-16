@@ -1,5 +1,6 @@
 var accountData = (function() {
 	var fbAccount = false;
+	var userID = "";
 	var username = "";
 	var points = 0;
 	var code = "";
@@ -30,6 +31,14 @@ var accountData = (function() {
 		return code;
 	}
 	
+	function setUserID(inputUserID) {
+		userID = inputUserID;
+	}
+	
+	function getUserID() {
+		return userID;
+	}
+	
 	function setUsername(inputUsername) {
 		username = inputUsername;
 	}
@@ -41,15 +50,19 @@ var accountData = (function() {
 	function resetUserData() {
 		console.log("reset");
 		fbAccount = false;
+		userID = "";
 		username = "";
 		points = 0;
 		code = "";
 	}
 	
+	
 	//public module functions (API)
 	return {
 		setIsFacebookLogin : setIsFacebookLogin,
 		isFacebookLogin : isFacebookLogin,
+		setUserID : setUserID,
+		getUserID : getUserID,
 		setUsername : setUsername,
 		getUsername : getUsername,
 		setPoints : setPoints,

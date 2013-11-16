@@ -2,8 +2,8 @@ var socketConnection = (function() {
 	var connection = null;
 
 	function establishConnection() {
-		connection = new WebSocket('ws://localhost:8080/websocket');
-		//connection = new WebSocket('ws://eat-em-up.marce155.eu.cloudbees.net/websocket');
+		//connection = new WebSocket('ws://localhost:8080/websocket');
+		connection = new WebSocket('ws://eat-em-up.marce155.eu.cloudbees.net/websocket');
 		bindSocketEvents();
 		bindSendMessages();
 	}
@@ -30,6 +30,7 @@ var socketConnection = (function() {
 	    
 	    connection.onclose = function(event) {
 		   console.log("Websocket Closed!");
+		   amplify.publish('SocketClosed');
 	    }
 	}
 

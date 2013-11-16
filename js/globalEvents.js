@@ -106,10 +106,18 @@ $(document).on('pageshow', '#sponsorPage' ,function(){
 
 //document ready events
 $(document).ready(function(){
+	bindSocketMessages();
 	socketConnection.establishConnection();
 	facebookHandler.init();
 });
 
+//socket closed
+function bindSocketMessages() {
+	amplify.subscribe('SocketClosed', function () {
+		$.mobile.changePage("#loginSelectionPage", { transition: "pop", changeHash: true });
+	});
+}
+	
 
 //browser window events
 $(window).on('resize', function(){

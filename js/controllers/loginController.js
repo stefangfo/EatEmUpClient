@@ -32,6 +32,7 @@ var loginController = (function() {
 			$.mobile.hidePageLoadingMsg();
 			if (message.loginSuccess) {
 				//prepare select view
+				accountData.setUserID(document.getElementById("usernameField").value);
 				accountData.setUsername(document.getElementById("usernameField").value);
 				accountData.setPoints(message.points);
 				accountData.setCode(message.adCode);

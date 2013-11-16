@@ -11,8 +11,18 @@ var selectController = (function() {
 		
 		if (accountData.isFacebookLogin()) {
 			console.log("Load picture now!");
-		}else {
+			//remove current picture
+			$("#userImg").remove()
+			//add picture
+			$("#userPoints").css("margin-top", "15px");
+			var imgPath = "http://graph.facebook.com/"+1690871472 +"/picture";
 			
+			$('<img id="userImg" src="'+ imgPath +'">').load(function() {
+			  $('#welcomeInfo').after($(this));
+			});
+		}else {
+			//removes facebook image if itexists
+			$("#userImg").remove();
 		}
 	}
 	

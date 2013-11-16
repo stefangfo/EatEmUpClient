@@ -5,11 +5,15 @@ var facebookHandler = (function() {
 		$.getScript('//connect.facebook.net/de_DE/all.js', function(){
 		    FB.init({
 		      appId: '325957930876505',
-		      channelUrl: '//localhost:80/eatemup/channel.html',
-		      status: true
+		      channelUrl: '//gfoellner.funpic.de/eatemup/channel.html',
+		      //channelUrl: '//localhost:80/eatemup/channel.html',
+		      status: true,
+		      cookie     : true, // enable cookies to allow the server to access the session
+			  oauth      : true, // enable OAuth 2.0
+			  xfbml      : true  // parse XFBML
 		    });     
 		   
-		     // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
+		  // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
 		  // for any authentication related change, such as login, logout or session refresh. This means that
 		  // whenever someone who was previously logged out tries to log in again, the correct case below 
 		  // will be handled. 
@@ -35,14 +39,21 @@ var facebookHandler = (function() {
 	
 	function doLogin() {
 		FB.login(function(response) {
-            if (response.authResponse) { 
-              //Do stuff
-              accountData.setIsFacebookLogin(true);
-			  $.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+            if (response.authResponse) {             
+               //Do stuff
+              requestUserName(function(username) {
+	              var uid = response.authResponse.userID;
+				  console.log(uid);
+	              console.log(username);
+	              accountData.setIsFacebookLogin(true);
+	              accountData.setUserID(uid);
+	              accountData.setUsername(username);
+				  $.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+              });
             } else {
-                //No access
+				//do nothing now
             }
-        }, {scope: "user_photos"});
+        }, {scope: "user_photos", redirect_uri:'http://gfoellner.funpic.de/eatemup'});
 
 	}
 	
@@ -52,7 +63,7 @@ var facebookHandler = (function() {
 	
 	function logoutEvent() {
 		console.log("Logout from Facebook!");
-		$.mobile.changePage("#loginSelectionPage", { transition: "pop", changeHash: true });
+		$.mobile.changePage("#loginSelectionPage", { transition: "slide", changeHash: true });
 	}
 	
 	function authResponseChange(response) {
@@ -84,10 +95,9 @@ var facebookHandler = (function() {
 	
 	// Here we run a very simple test of the Graph API after login is successful. 
 	// This testAPI() function is only called in those cases. 
-	function testAPI() {
-	    console.log('Welcome!  Fetching your information.... ');
+	function requestUserName(callback) {
 	    FB.api('/me', function(response) {
-	      console.log('Good to see you, ' + response.name + '.');
+	      callback(response.name);
 	    });
 	}  
 	  	
