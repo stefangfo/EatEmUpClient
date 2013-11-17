@@ -102,7 +102,7 @@ function initAvatar(team, player) {
 function initGoodieMarkers(goodieInfo) {
 	for (var i=0; i<goodieInfo.length; i++) {
 		var goodie = goodieInfo[i];
-		var img;
+		var markerImg;
 		var goodieImage;
 		if (goodie.points === 25) {
 			goodieImage = goodieImages.standard;
