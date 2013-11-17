@@ -18,7 +18,11 @@ var socketConnection = (function() {
 	       console.log("message received "+event.data);
 	       var dataObject = JSON.parse(event.data);
 	       if (dataObject.type == "ReadyForGame") {
-		       amplify.publish('ReadyForGame', dataObject.message);
+	       	   if (accountData.isFacebookAccount()) {
+	       	   		amplify.publish('ReadyForGameFacebook', dataObject.message);
+	       	   }else {
+		       	    amplify.publish('ReadyForGame', dataObject.message);
+	       	   }
 	       }else if (dataObject.type == "Highscore") {
 		       amplify.publish('Highscore', dataObject.message);
 	       } 

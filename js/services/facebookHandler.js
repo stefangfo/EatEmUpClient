@@ -27,7 +27,6 @@ var facebookHandler = (function() {
 		FB.getLoginStatus(function(response) {
 			if (response.status == 'connected') {
 				requestUserName(function(username) {
-					console.log(username);
 					setAccountData(response, username);
 					notifyServerForLogin();
 			    });

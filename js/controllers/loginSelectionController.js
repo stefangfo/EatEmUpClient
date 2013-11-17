@@ -21,7 +21,7 @@ var loginSelectionController = (function() {
 	}
 	
 	function loginResponseMsg() {
-		amplify.subscribe('ReadyForGame', function (message) {
+		amplify.subscribe('ReadyForGameFacebook', function (message) {
 			$.mobile.hidePageLoadingMsg();
 			if (message.loginSuccess) { //fb login success
 				//prepare select view
