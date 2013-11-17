@@ -54,15 +54,13 @@ this.initMarkers = function(){
 	//load images from server
 	loadImages(function() {
 		//init avatar markers
-		var playerInfo = [{username: "Stefan Gföllner", userid: "1690871472", position: {latitude: 48.337428, longitude: 14.319928}}, {username: "Michael Hartlauer", userid: "1690871472", 								position: {latitude: 48.337328, longitude: 14.321237}}];
+		var playerInfo = [{username: "Stefan Gföllner", userid: "1690871472", position: {latitude: 48.337428, longitude: 14.319928}}, {username: "Michael Hartlauer", userid: "1790871472", 								position: {latitude: 48.337328, longitude: 14.321237}}];
 		initAvatarMarkers(playerInfo);
 		
 		//init goodie markers
 		var goodieInfo = [{latitude: 48.337066, longitude: 14.318477, specialAction: null, points: 50}, {latitude: 48.337191, longitude: 14.318498, specialAction: null, points: 25}];
 		initGoodieMarkers(goodieInfo);
 	});
-	
-
 }
 
 function initAvatarMarkers(playerInfo) {
@@ -95,8 +93,9 @@ function initAvatar(team, player) {
 		playerAvatars.push({userID: player.userid, username: player.username, specialAction: null, marker: playerMarker, canvas: canvas});	
 	
 		//redraw once
-		//	redrawPlayerAvatar(player.userid, player.username, 50);
-		//	drawSpecialAction(player.userid, player.username, 100, "invincible");							
+			redrawPlayerAvatar(player.userid, player.username, 50);
+			drawSpecialAction(player.userid, player.username, 100, "invincible");	
+			removeSpecialAction(player.userid, player.username, 100);						
 	});	
 }
 
@@ -272,8 +271,10 @@ function drawSpecialAction(userID, username, points, specialAction) {
 }
 
 
-function removeSpecialAction(userID, username, points, specialAction) {
-	
+function removeSpecialAction(userID, username, points) {
+	var playerAvatar = getPlayerAvatarByUserID(userID);
+	playerAvatar.specialAction = null;
+	redrawPlayerAvatar(userID, username, points);
 }
 
 function drawPlayerAvatar(context, username, markerImg, userImg, points, actionType) {
@@ -313,11 +314,6 @@ function drawPlayerAvatar(context, username, markerImg, userImg, points, actionT
 	}		
 }
 
-
-function removeSpecialActionFromPlayer(userID) {
-	var playerAvatar = getPlayerAvatarByUserID(userID);
-	redr
-}
 
 function getPlayerAvatarByUserID(userID) {
 	returnVal = null;
