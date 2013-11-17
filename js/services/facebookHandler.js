@@ -23,7 +23,7 @@ var facebookHandler = (function() {
 	
 	function login() {
 		console.log("Login to Facebook!");
-		//check status
+		//check statuså
 		FB.getLoginStatus(function(response) {
 			if (response.status == 'connected') {
 				requestUserName(function(username) {
@@ -53,6 +53,7 @@ var facebookHandler = (function() {
 	}
 	
 	function notifyServerForLogin() {
+		$.mobile.showPageLoadingMsg("a", "Daten werden geprüft...");
 		amplify.publish('Login', {username: accountData.getUsername(), type: "facebook", facebookid: accountData.getFacebookID()});
 	}
 	
