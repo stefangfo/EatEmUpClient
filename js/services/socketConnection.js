@@ -2,8 +2,8 @@ var socketConnection = (function() {
 	var connection = null;
 
 	function establishConnection() {
-		//connection = new WebSocket('ws://localhost:8080/websocket');
-		connection = new WebSocket('ws://eat-em-up.marce155.eu.cloudbees.net/websocket');
+		connection = new WebSocket('ws://localhost:8080/websocket');
+		//connection = new WebSocket('ws://eat-em-up.marce155.eu.cloudbees.net/websocket');
 		bindSocketEvents();
 		bindSendMessages();
 	}
@@ -44,10 +44,10 @@ var socketConnection = (function() {
 			sendLoginRequest(message);
 		});
 		
-		amplify.subscribe('Logout', function (usernameInfo) {
+		amplify.subscribe('Logout', function (userInfo) {
 			var message = {
 					type:"Exit",
-					message: {username: usernameInfo}
+					message: userInfo
 			}
 			sendLogoutRequest(message);
 		});

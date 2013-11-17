@@ -10,6 +10,7 @@ var highscoreController = (function() {
 		$("#highscoreList li").remove();
 		$('#highscoreList').listview('refresh');	
 		amplify.publish('HighscoreRequest', {username: accountData.getUsername(), 
+											 userid: accountData.getUserID(),
 											 topx: 5});
 	}
 	

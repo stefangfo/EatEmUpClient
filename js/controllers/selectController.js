@@ -9,14 +9,12 @@ var selectController = (function() {
 		$("#selectPage .totalPoints").text(accountData.getPoints());
 		$("#refCode").text(accountData.getCode());
 		
-		if (accountData.isFacebookLogin()) {
-			console.log("Load picture now!");
+		if (accountData.isFacebookAccount()) {
 			//remove current picture
-			$("#userImg").remove()
+			$("#userImg").remove();
 			//add picture
 			$("#userPoints").css("margin-top", "15px");
-			var imgPath = "http://graph.facebook.com/"+accountData.getUserID() +"/picture";
-			
+			var imgPath = "http://graph.facebook.com/"+accountData.getFacebookID() +"/picture";
 			$('<img id="userImg" src="'+ imgPath +'">').load(function() {
 			  $('#welcomeInfo').after($(this));
 			});
@@ -37,11 +35,10 @@ var selectController = (function() {
 	//control events
 	function logoutTap() {
 		$("#logoutButton").on("click", function() {
-			if (accountData.isFacebookLogin()) {
+			if (accountData.isFacebookAccount()) {
 				facebookHandler.logout();
-			}else {
-				amplify.publish('Logout', accountData.getUsername());
 			}
+			amplify.publish('Logout', {username: accountData.getUsername(), userid: accountData.getUserID()});
 			accountData.resetUserData();
 		});
 	}	

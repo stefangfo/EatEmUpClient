@@ -3,6 +3,7 @@ var loginSelectionController = (function() {
 	//page events
 	function pageInit() {
 		bindUIActions();
+		bindServiceMessages();
 	}
 	
 	function pageBeforeShow() {
@@ -13,6 +14,24 @@ var loginSelectionController = (function() {
 	
 	function bindUIActions(){
 		fbLoginClicked();
+	}
+	
+	function bindServiceMessages() {
+		loginResponseMsg();
+	}
+	
+	function loginResponseMsg() {
+		amplify.subscribe('ReadyForGame', function (message) {
+			$.mobile.hidePageLoadingMsg();
+			if (message.loginSuccess) { //fb login success
+				//prepare select view
+				$.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+			}else {
+				//display loginFailure
+				accountData.reset();
+				$("#loginFailedPopup").popup("open");
+			}
+		});
 	}
 		
 	fbLoginClicked = function(){

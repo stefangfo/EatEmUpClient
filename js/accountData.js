@@ -1,18 +1,19 @@
 var accountData = (function() {
-	var fbAccount = false;
+	var facebookAccount = false;
 	var userID = "";
 	var username = "";
+	var facebookID = "";
 	var points = 0;
 	var code = "";
 	
 	
 	//getter/setter
-	function setIsFacebookLogin(loginType) {
-		fbAccount = loginType;
+	function setIsFacebookAccount(loginType) {
+		facebookAccount = loginType;
 	}
 	
-	function isFacebookLogin() {
-		return fbAccount;
+	function isFacebookAccount() {
+		return facebookAccount;
 	}
 	
 	function setPoints(inputPoints) {
@@ -47,11 +48,20 @@ var accountData = (function() {
 		return username;
 	}
 	
+	function setFacebookID(fbID) {
+		facebookID = fbID;
+	}
+	
+	function getFacebookID() {
+		return facebookID;
+	}
+	
 	function resetUserData() {
 		console.log("reset");
-		fbAccount = false;
+		facebookAccount = false;
 		userID = "";
 		username = "";
+		facebookID = "";
 		points = 0;
 		code = "";
 	}
@@ -59,12 +69,14 @@ var accountData = (function() {
 	
 	//public module functions (API)
 	return {
-		setIsFacebookLogin : setIsFacebookLogin,
-		isFacebookLogin : isFacebookLogin,
+		setIsFacebookAccount : setIsFacebookAccount,
+		isFacebookAccount : isFacebookAccount,
 		setUserID : setUserID,
 		getUserID : getUserID,
 		setUsername : setUsername,
 		getUsername : getUsername,
+		setFacebookID : setFacebookID,
+		getFacebookID : getFacebookID,
 		setPoints : setPoints,
 		getPoints : getPoints,
 		setCode : setCode,

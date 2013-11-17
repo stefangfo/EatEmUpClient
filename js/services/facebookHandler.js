@@ -4,8 +4,8 @@ var facebookHandler = (function() {
 		$.getScript('//connect.facebook.net/de_DE/all.js', function(){
 		    FB.init({
 		      appId: '325957930876505',
-		      //channelUrl: '//gfoellner.funpic.de/eatemup/channel.html',
-		      channelUrl: '//localhost:80/eatemup/channel.html',
+		      channelUrl: '//gfoellner.funpic.de/eatemup/channel.html',
+		      //channelUrl: '//localhost:80/eatemup/channel.html',
 		      status: true,
 		      cookie     : true, // enable cookies to allow the server to access the session
 			  oauth      : true, // enable OAuth 2.0
@@ -27,8 +27,9 @@ var facebookHandler = (function() {
 		FB.getLoginStatus(function(response) {
 			if (response.status == 'connected') {
 				requestUserName(function(username) {
+					console.log(username);
 					setAccountData(response, username);
-			    	$.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+					notifyServerForLogin();
 			    });
 		  } else if (response.status == 'not_authorized') {
 		  	doLogin();
@@ -44,21 +45,22 @@ var facebookHandler = (function() {
                //Do stuff
               requestUserName(function(username) {
 	              setAccountData(response, username);
-				  $.mobile.changePage("#selectPage", { transition: "pop", changeHash: true });
+	              notifyServerForLogin();
               });
             } else {
 				//do nothing now
             }
         });
-
+	}
+	
+	function notifyServerForLogin() {
+		amplify.publish('Login', {username: accountData.getUsername(), type: "facebook", facebookid: accountData.getFacebookID()});
 	}
 	
 	function setAccountData(response, username) {
 		var uid = response.authResponse.userID;
-		console.log(uid);
-		console.log(username);
-		accountData.setIsFacebookLogin(true);
-		accountData.setUserID(uid);
+		accountData.setIsFacebookAccount(true);
+		accountData.setFacebookID(uid);
 		accountData.setUsername(username);			
 	}
 	
@@ -101,7 +103,6 @@ var facebookHandler = (function() {
 	// Here we run a very simple test of the Graph API after login is successful. 
 	// This testAPI() function is only called in those cases. 
 	function requestUserName(callback) {
-	console.log("Requesting");
 	    FB.api('/me', function(response) {
 	      callback(response.name);
 	    });

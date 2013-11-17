@@ -121,7 +121,7 @@ this.initMarkers = function(map){
 		  infoWindow.open(map, player1);
 		});
 		
-		playerAvatars.push({username: "stefan", marker: player1, canvas: canvas});	
+		playerAvatars.push({userID: "", username: "stefan", marker: player1, canvas: canvas});	
 		var amount = 0;
 		setInterval(function() {
 			amount = amount + 50;
@@ -147,7 +147,7 @@ this.initMarkers = function(map){
 		google.maps.event.addListener(redPlayer, 'click', function() {
 		  infoWindow.open(map, redPlayer);
 		});
-		playerAvatars.push({username: "markus", marker: redPlayer, canvas: canvas});
+		playerAvatars.push({userID: "", username: "markus", marker: redPlayer, canvas: canvas});
 	});
 
 	createPlayerAvatar("blue", "christian", 100, function(pngURL, canvas) {
@@ -166,7 +166,7 @@ this.initMarkers = function(map){
 		google.maps.event.addListener(bluePlayer1, 'click', function() {
 		  infoWindow.open(map, bluePlayer1);
 		});
-		playerAvatars.push({username: "christian", marker: bluePlayer1, canvas: canvas});
+		playerAvatars.push({userID: "", username: "christian", marker: bluePlayer1, canvas: canvas});
 	});	
 	
 	createPlayerAvatar("blue", "michael", 150, function(pngURL, canvas) {
@@ -185,7 +185,7 @@ this.initMarkers = function(map){
 		google.maps.event.addListener(bluePlayer2, 'click', function() {
 		  infoWindow.open(map, bluePlayer2);
 		});
-		playerAvatars.push({username: "michael", marker: bluePlayer2, canvas: canvas});
+		playerAvatars.push({userID: "", username: "michael", marker: bluePlayer2, canvas: canvas});
 		
 		var amount = 0;
 		setInterval(function() {
@@ -271,6 +271,7 @@ function drawPlayerAvatar(context, username, markerImg, userImg, points, special
 	}
 }
 
+//userID instead of username!!!!!
 function redrawPlayerAvatar(username, points, specialAction) {
 	var playerAvatar = getPlayerAvatarByUsername(username);
 	//clear old canvas 
@@ -285,6 +286,7 @@ function redrawPlayerAvatar(username, points, specialAction) {
 	playerAvatar.marker.setIcon(canvas.toDataURL());
 }
 
+//needs to be changed to userID!!!!!
 function getPlayerAvatarByUsername(username) {
 	returnVal = null;
 	for (i=0; i<playerAvatars.length; i++){
