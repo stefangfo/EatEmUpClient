@@ -69,11 +69,11 @@ function initAvatarMarkers(playerInfo) {
 	for (var i=0; i<playerInfo.length; i++) {
 		var player = playerInfo[i];
 		//create avatar
-		createAvatar("red", player);	
+		initAvatar("red", player);	
    }
 }
 
-function createAvatar(team, player) {
+function initAvatar(team, player) {
 	createPlayerAvatar("red", player.userid, player.username, 0, function(pngURL, canvas) {
 		//console.log(i);
 		var playerMarker = new google.maps.Marker({
