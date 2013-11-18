@@ -72,8 +72,7 @@ function initAvatarMarkers(playerInfo) {
 }
 
 function initAvatar(team, player) {
-	createPlayerAvatar("red", player.userid, player.username, 0, function(pngURL, canvas) {
-		//console.log(i);
+	createPlayerAvatar("red", player.userid, player.username, 0, null, function(pngURL, canvas) {
 		var playerMarker = new google.maps.Marker({
 			    	position: new google.maps.LatLng(player.position.latitude, player.position.longitude),
 					map: map,
@@ -94,8 +93,8 @@ function initAvatar(team, player) {
 	
 		//redraw once
 			redrawPlayerAvatar(player.userid, player.username, 50);
-			drawSpecialAction(player.userid, player.username, 100, "invincible");	
-			removeSpecialAction(player.userid, player.username, 100);						
+			drawSpecialAction(player.userid, player.username, 100, "doublePoints");	
+		//	removeSpecialAction(player.userid, player.username, 100);						
 	});	
 }
 
@@ -219,36 +218,26 @@ function loadImagesFromServer(imgSrcs, loadedCallback, errorCallback) {
 	   imgs[i].addEventListener('load', loadCallback, false);
 	   imgs[i].onerror = errorCallback;		
 	   imgs[i].src = imgSrcs[i];
+	   imgs[i].crossOrigin = "Anonymous";
 	}
 }
 
 
-function createPlayerAvatar(team, userID, username, points, loadedCallback) {
+function createPlayerAvatar(team, userID, username, points, userImg, loadedCallback) {
 	var canvas, context;
 	canvas = document.createElement("canvas");
     canvas.width = playerAvatarWidth;
     canvas.height = playerAvatarHeight;
     context = canvas.getContext("2d");
-    
-    var imgSrcs = ["http://graph.facebook.com/"+userID+"/picture"];  
-    var loadCallback = function (imgs) {
-    	var avatarImg;
-    	if (team === "red"){
-	    	avatarImg = avatarImages.red;
-    	}else {
-	    	avatarImg = avatarImages.blue;
-    	}
-    	drawPlayerAvatar(context, username, avatarImg, null, points, null);
-    	loadedCallback(canvas.toDataURL(), {canvas: canvas, markerImg: avatarImg, userImg: null});
-	};
-	
-	//error callback for image load
-	var errorCallback = function() {
-		console.log("Error in loading specialAction images");
-	}
-	
-	//load images from server
-   loadImagesFromServer(imgSrcs, loadCallback, errorCallback);  
+      
+	var avatarImg;
+    if (team === "red"){
+	   	avatarImg = avatarImages.red;
+    }else {
+	   	avatarImg = avatarImages.blue;
+    }
+    drawPlayerAvatar(context, username, avatarImg, userImg, points, null);
+    loadedCallback(canvas.toDataURL(), {canvas: canvas, markerImg: avatarImg, userImg: null});
 }
 
 function redrawPlayerAvatar(userID, username, points) {
